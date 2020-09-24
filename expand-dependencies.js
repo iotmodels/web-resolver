@@ -22,24 +22,43 @@ const getDependencies = rootJson => {
   return deps
 }
 
-export const expand = async dtmi => {
+export const expand = async (dtmi, repos) => {
   const knownIds = []
   const rootAndDeps = []
 
-  const walkDeps = async dtmi => {
+  const fetchFromRepo = async (repoBaseUrl, path) => {
+    try {
+      console.log(`GET: ${repoBaseUrl}/${path}`)
+      const doc = await (await window.fetch(`${repoBaseUrl}/${path}`)).json()
+      rootAndDeps.push(doc)
+      return true
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const walkRepos = async (repos, dtmi) => {
+    let found = false
     const file = dtmi2path(dtmi)
-    const url = `${file}`
-    const doc = await (await window.fetch(url)).json()
-    knownIds.push(dtmi)
-    rootAndDeps.push(doc)
-    console.log(dtmi)
+    for (let i = 0; i < repos.length; i++) {
+      const r = repos[i]
+      found = await fetchFromRepo(r, file)
+      if (found) break
+    }
+    return found
+  }
+
+  const walkDeps = async (dtmi, repos) => {
+    const found = await walkRepos(repos, dtmi)
+    if (found) knownIds.push(dtmi)
+    const doc = rootAndDeps.filter(d => d['@id'] === dtmi)[0]
     const deps = getDependencies(doc)
     for await (const d of deps) {
       if (knownIds.indexOf(d) === -1) {
-        await walkDeps(d)
+        await walkDeps(d, repos)
       }
     }
   }
-  await walkDeps(dtmi)
+  await walkDeps(dtmi, repos)
   return rootAndDeps
 }

@@ -59,15 +59,9 @@ import { dtmi2path } from './dtmi2path.js'
     button.onclick = async () => {
       model.resolveStatus = ''
       const dtmi = gbid('q').value
-      bindTemplate('model-template', '', 'rendered')
+      const repos = gbid('repos').value.replace(/(\r\n|\n|\r)/gm, '').split(';')
 
-      // const fileName = dtmi2path(dtmi)
-      // const url = `${fileName}`
-      // model.resolveStatus = `Resolving ${dtmi} with ${url}..`
-      // docs = await (await window.fetch(url)).json()
-      // model.resolveStatus = `Resolving ${dtmi} with ${url} OK !!`
-
-      docs = await expand(dtmi)
+      docs = await expand(dtmi, repos)
 
       const rootDoc = docs.filter(doc => doc['@id'] === dtmi)[0]
       model.id = rootDoc['@id']
