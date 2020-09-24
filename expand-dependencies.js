@@ -34,9 +34,7 @@ export const expand = async (dtmi, repos) => {
       rootAndDeps.push(doc)
       knownIds[dtmi] = `${repoBaseUrl}/${path}`
       return true
-    } catch (e) {
-      console.log(e)
-    }
+    } catch {}
   }
 
   const walkRepos = async (repos, dtmi) => {

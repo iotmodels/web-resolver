@@ -47,30 +47,13 @@ https://contosomodels.z19.web.core.windows.net;
 https://raw.githubusercontent.com/mmydland/registry/master;
         </textarea>
     </div>
+    <div id="status"></div>
     <div id="rendered"></div>
     <script id="model-template" type="x-tmpl-mustache">
         
         <div class="status">{{resolveStatus}}</div>
         
-        {{#Default}}
-            <div>
-                Default  <a href="{{schemaUrl}}">{{id}}<a>
-            </div>
-            <ul>
-              
-                {{#telemetry}}
-                <li>t: {{name}} {{schema}}</li>
-                {{/telemetry}}
-                {{#properties}}
-                <li>p: {{name}} {{schema}} {{writable}}</li>
-                {{/properties}}
-                {{#commands}}
-                <li>c: {{name}}</li>
-                {{/commands}}
-            </ul>
-        {{/Default}}
         {{#Components}}
-        
         <div>
             {{name}}  <a href="{{schemaUrl}}">{{schema}}<a>
         </div>
@@ -87,7 +70,9 @@ https://raw.githubusercontent.com/mmydland/registry/master;
         </ul>
         {{/Components}}
     </script>
-   
+    <script id="status-message" type="x-tmpl-mustache">
+        Status: {{.}}
+    </script>
 
     <script src="https://unpkg.com/mustache@latest"></script>
     

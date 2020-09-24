@@ -64,6 +64,7 @@ import { expand } from './expand-dependencies.js'
       const { rootAndDeps, knownIds } = await expand(dtmi, repos)
       docs = rootAndDeps
       ids = knownIds
+
       if (knownIds[dtmi]) {
         const rootDoc = rootAndDeps.filter(doc => doc['@id'] === dtmi)[0]
         model.id = rootDoc['@id']
@@ -80,7 +81,9 @@ import { expand } from './expand-dependencies.js'
         }
         console.log(model)
       } else {
-        model.resolveStatus = 'DTMI not found: ' + dtmi
+        model.Components = []
+        const resolveStatus = 'DTMI not found: ' + dtmi
+        bindTemplate('status-message', resolveStatus, 'status')
       }
       bindTemplate('model-template', model, 'rendered')
     }
