@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeviceModelRepo. Web Resolver Sample</title>
+    <style>
+       body{
+           font-family:monospace
+       }
+       .samples {
+           font-size: smaller;
+           color:gray
+       }
+       .status {
+           margin: 5px;
+           bottom: 10px;
+           padding: 10px;
+       }
+       #rendered {
+           width: fit-content;
+           padding: 10px;
+           border: gray solid 2px;
+
+       }
+    </style>
+</head>
+
+<body>
+    <h4>DeviceModelRepo</h4>
+    <h1>Web Resolver Sample</h1>
+    <hr />
+    <div id="main">
+        <input type="text" id="q" size="50" value="dtmi:rido:device:sample;3">
+        <button id="search">Resolve</button>
+    </div>
+    <div class="samples">
+        samples <small>dtmi:azure:DeviceManagement:DeviceInformation;1 dtmi:com:example:TemperatureController;1 dtmi:my:device:model;3 </small>
+    </div>
+    <hr />
+    <div id="rendered"></div>
+    <script id="model-template" type="x-tmpl-mustache">
+        
+        <div class="status">{{resolveStatus}}</div>
+        
+        {{#Default}}
+            <div>
+                Default  <a href="{{schemaUrl}}">{{id}}<a>
+            </div>
+            <ul>
+              
+                {{#telemetry}}
+                <li>t: {{name}} {{schema}}</li>
+                {{/telemetry}}
+                {{#properties}}
+                <li>p: {{name}} {{schema}} {{writable}}</li>
+                {{/properties}}
+                {{#commands}}
+                <li>cmd: {{name}}</li>
+                {{/commands}}
+            </ul>
+        {{/Default}}
+        {{#Components}}
+        
+        <div>
+            {{name}}  <a href="{{schemaUrl}}">{{schema}}<a>
+        </div>
+        <ul>
+            {{#telemetry}}
+            <li>t: {{name}} {{schema}}</li>
+            {{/telemetry}}
+            {{#properties}}
+            <li>p: {{name}} {{schema}} {{writable}}</li>
+            {{/properties}}
+            {{#commands}}
+            <li>cmd: {{name}}</li>
+            {{/commands}}
+        </ul>
+        {{/Components}}
+    </script>
+   
+
+    <script src="https://unpkg.com/mustache@latest"></script>
+    
+    <script src="index.js" type="module"></script>
+    <hr />
+    <div>
+      Use the <a href="https://github.com/iotmodels/registry">IoTModels GitHub Repo</a> to submit new models.
+    </div>
+</body>
+
+</html>
