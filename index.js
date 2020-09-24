@@ -62,22 +62,24 @@ import { dtmi2path } from './dtmi2path.js'
       const repos = gbid('repos').value.replace(/(\r\n|\n|\r)/gm, '').split(';')
 
       docs = await expand(dtmi, repos)
-
-      const rootDoc = docs.filter(doc => doc['@id'] === dtmi)[0]
-      model.id = rootDoc['@id']
-      model.displayName = rootDoc.displayName
-      model.Components = []
-      addComp2Model('_default', model.id)
-      if (Array.isArray(rootDoc.contents)) {
-        const components = rootDoc.contents.filter(c => c['@type'] === 'Component')
-        components.forEach(c => {
-          if (typeof c.schema !== 'object') {
-            addComp2Model(c.name, c.schema)
-          }
-        })
+      if (docs) {
+        const rootDoc = docs.filter(doc => doc['@id'] === dtmi)[0]
+        model.id = rootDoc['@id']
+        model.displayName = rootDoc.displayName
+        model.Components = []
+        addComp2Model('_default', model.id)
+        if (Array.isArray(rootDoc.contents)) {
+          const components = rootDoc.contents.filter(c => c['@type'] === 'Component')
+          components.forEach(c => {
+            if (typeof c.schema !== 'object') {
+              addComp2Model(c.name, c.schema)
+            }
+          })
+        }
+        console.log(model)
+      } else {
+        model.resolveStatus = 'DTMI not found: ' + dtmi
       }
-
-      console.log(model)
       bindTemplate('model-template', model, 'rendered')
     }
   }

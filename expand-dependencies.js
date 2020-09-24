@@ -52,12 +52,17 @@ export const expand = async (dtmi, repos) => {
     const found = await walkRepos(repos, dtmi)
     if (found) knownIds.push(dtmi)
     const doc = rootAndDeps.filter(d => d['@id'] === dtmi)[0]
-    const deps = getDependencies(doc)
-    for await (const d of deps) {
-      if (knownIds.indexOf(d) === -1) {
-        await walkDeps(d, repos)
+    if (doc) {
+      const deps = getDependencies(doc)
+      for await (const d of deps) {
+        if (knownIds.indexOf(d) === -1) {
+          await walkDeps(d, repos)
+        }
       }
+    } else {
+      console.log(`${dtmi} not found rootAndDeps array`)
     }
+
   }
   await walkDeps(dtmi, repos)
   return rootAndDeps
