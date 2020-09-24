@@ -23,14 +23,16 @@ const getDependencies = rootJson => {
 }
 
 export const expand = async (dtmi, repos) => {
-  const knownIds = []
+  const knownIds = {}
   const rootAndDeps = []
 
-  const fetchFromRepo = async (repoBaseUrl, path) => {
+  const fetchFromRepo = async (repoBaseUrl, dtmi) => {
     try {
+      const path = dtmi2path(dtmi)
       console.log(`GET: ${repoBaseUrl}/${path}`)
       const doc = await (await window.fetch(`${repoBaseUrl}/${path}`)).json()
       rootAndDeps.push(doc)
+      knownIds[dtmi] = `${repoBaseUrl}/${path}`
       return true
     } catch (e) {
       console.log(e)
@@ -39,31 +41,30 @@ export const expand = async (dtmi, repos) => {
 
   const walkRepos = async (repos, dtmi) => {
     let found = false
-    const file = dtmi2path(dtmi)
     for (let i = 0; i < repos.length; i++) {
       const r = repos[i]
-      found = await fetchFromRepo(r, file)
-      if (found) break
+      if (r) {
+        found = await fetchFromRepo(r, dtmi)
+        if (found) break
+      }
     }
     return found
   }
 
   const walkDeps = async (dtmi, repos) => {
     const found = await walkRepos(repos, dtmi)
-    if (found) knownIds.push(dtmi)
-    const doc = rootAndDeps.filter(d => d['@id'] === dtmi)[0]
-    if (doc) {
+    if (found) {
+      const doc = rootAndDeps.filter(d => d['@id'] === dtmi)[0]
       const deps = getDependencies(doc)
       for await (const d of deps) {
-        if (knownIds.indexOf(d) === -1) {
+        if (!knownIds[d]) {
           await walkDeps(d, repos)
         }
       }
     } else {
-      console.log(`${dtmi} not found rootAndDeps array`)
+      console.log(`DTMI ${dtmi} not found in repo list`)
     }
-
   }
   await walkDeps(dtmi, repos)
-  return rootAndDeps
+  return { rootAndDeps, knownIds }
 }

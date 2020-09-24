@@ -1,5 +1,4 @@
 import { expand } from './expand-dependencies.js'
-import { dtmi2path } from './dtmi2path.js'
 
 (async () => {
   /**
@@ -24,6 +23,7 @@ import { dtmi2path } from './dtmi2path.js'
 
   const model = {}
   let docs = []
+  let ids = {}
 
   const addComp2Model = (name, cschema) => {
     const comp = docs.filter(doc => doc['@id'] === cschema)[0]
@@ -31,7 +31,7 @@ import { dtmi2path } from './dtmi2path.js'
     const compItem = model.Components[compPos - 1]
     compItem.name = name
     compItem.schema = cschema
-    compItem.schemaUrl = dtmi2path(cschema)
+    compItem.schemaUrl = ids[cschema]
 
     if (Array.isArray(comp.contents)) {
       comp.contents.forEach(c => {
@@ -61,9 +61,11 @@ import { dtmi2path } from './dtmi2path.js'
       const dtmi = gbid('q').value
       const repos = gbid('repos').value.replace(/(\r\n|\n|\r)/gm, '').split(';')
 
-      docs = await expand(dtmi, repos)
-      if (docs) {
-        const rootDoc = docs.filter(doc => doc['@id'] === dtmi)[0]
+      const { rootAndDeps, knownIds } = await expand(dtmi, repos)
+      docs = rootAndDeps
+      ids = knownIds
+      if (knownIds[dtmi]) {
+        const rootDoc = rootAndDeps.filter(doc => doc['@id'] === dtmi)[0]
         model.id = rootDoc['@id']
         model.displayName = rootDoc.displayName
         model.Components = []
