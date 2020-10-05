@@ -1,4 +1,4 @@
-import { dtmi2path } from './dtmi2path.js'
+import { dtmiToPath } from './repo-convention-browser.js'
 
 const getDependencies = rootJson => {
   const deps = []
@@ -28,11 +28,11 @@ export const expand = async (dtmi, repos) => {
 
   const fetchFromRepo = async (repoBaseUrl, dtmi) => {
     try {
-      const path = dtmi2path(dtmi)
-      console.log(`GET: ${repoBaseUrl}/${path}`)
-      const doc = await (await window.fetch(`${repoBaseUrl}/${path}`)).json()
+      const path = dtmiToPath(dtmi)
+      console.log(`GET: ${repoBaseUrl}${path}`)
+      const doc = await (await window.fetch(`${repoBaseUrl}${path}`)).json()
       rootAndDeps.push(doc)
-      knownIds[dtmi] = `${repoBaseUrl}/${path}`
+      knownIds[dtmi] = `${repoBaseUrl}${path}`
       return true
     } catch {}
   }
