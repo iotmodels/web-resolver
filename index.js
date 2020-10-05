@@ -56,6 +56,10 @@ import { expand } from './expand-dependencies.js'
   }
   const init = () => {
     const button = gbid('search')
+    const samples = gbid('sample-dtmis')
+    samples.onclick = (that) => {
+      gbid('q').value = that.target.id
+    }
     button.onclick = async () => {
       model.resolveStatus = ''
       const dtmi = gbid('q').value
@@ -64,9 +68,9 @@ import { expand } from './expand-dependencies.js'
       const { rootAndDeps, knownIds } = await expand(dtmi, repos)
       docs = rootAndDeps
       ids = knownIds
+      const rootDoc = rootAndDeps.filter(doc => doc['@id'] === dtmi)[0]
 
-      if (knownIds[dtmi]) {
-        const rootDoc = rootAndDeps.filter(doc => doc['@id'] === dtmi)[0]
+      if (knownIds[dtmi] && rootDoc) {
         model.id = rootDoc['@id']
         model.displayName = rootDoc.displayName
         model.Components = []
@@ -79,7 +83,7 @@ import { expand } from './expand-dependencies.js'
             }
           })
         }
-        console.log(model)
+        // console.log(model)
       } else {
         model.Components = []
         const resolveStatus = 'DTMI not found: ' + dtmi

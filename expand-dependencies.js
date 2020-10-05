@@ -27,13 +27,18 @@ export const expand = async (dtmi, repos) => {
   const rootAndDeps = []
 
   const fetchFromRepo = async (repoBaseUrl, dtmi) => {
+    const path = dtmiToPath(dtmi)
     try {
-      const path = dtmiToPath(dtmi)
-      console.log(`GET: ${repoBaseUrl}${path}`)
+      // console.log(`GET: ${repoBaseUrl}${path}`)
       const doc = await (await window.fetch(`${repoBaseUrl}${path}`)).json()
-      rootAndDeps.push(doc)
-      knownIds[dtmi] = `${repoBaseUrl}${path}`
-      return true
+      if (doc && doc['@id'] && doc['@id'] === dtmi) {
+        rootAndDeps.push(doc)
+        knownIds[dtmi] = `${repoBaseUrl}${path}`
+        return true
+      } else {
+        console.log(`URL found but not matching DTMI ${dtmi}`)
+        return false
+      }
     } catch {}
   }
 
@@ -60,7 +65,7 @@ export const expand = async (dtmi, repos) => {
         }
       }
     } else {
-      console.log(`DTMI ${dtmi} not found in repo list`)
+      console.log(`DTMI ${dtmi} not found in repo`)
     }
   }
   await walkDeps(dtmi, repos)

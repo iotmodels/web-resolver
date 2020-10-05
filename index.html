@@ -13,6 +13,10 @@
            font-size: smaller;
            color:gray
        }
+       .samples>div>small:hover {
+           color:black;
+           cursor:pointer;
+       }
        .status {
            margin: 5px;
            bottom: 10px;
@@ -36,7 +40,14 @@
         <button id="search">Resolve</button>
     </div>
     <div class="samples">
-        samples <small>dtmi:azure:DeviceManagement:DeviceInformation;1 dtmi:com:example:TemperatureController;1 dtmi:my:device:model;3 </small>
+        <div id="sample-dtmis">
+            <small id="dtmi:azure:DeviceManagement:DeviceInformation;1">dtmi:azure:DeviceManagement:DeviceInformation;1</small>
+            <small id="dtmi:com:example:TemperatureController;1">dtmi:com:example:TemperatureController;1</small>
+            <small id="dtmi:my:device:model;3">dtmi:my:device:model;3</small>
+            <small id="dtmi:jp:co:covia:ActyG3;2">dtmi:jp:co:covia:ActyG3;2</small>
+            <small id="dtmi:Espressif:SensorController;2">dtmi:Espressif:SensorController;2</small>
+            <small id="dtmi:Advantech:EPC_U2117;2">dtmi:Advantech:EPC_U2117;2</small>
+        </div>
     </div>
     <hr />
     <div class="repos">
