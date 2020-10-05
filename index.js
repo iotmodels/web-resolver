@@ -88,7 +88,10 @@ import { expand } from './expand-dependencies.js'
         model.Components = []
         const resolveStatus = 'DTMI not found: ' + dtmi
         bindTemplate('status-message', resolveStatus, 'status')
+        bindTemplate('model-template', model, 'rendered')
+        return
       }
+      bindTemplate('status-message', 'DTMI found', 'status')
       bindTemplate('model-template', model, 'rendered')
     }
   }
