@@ -55,13 +55,8 @@ import { expand } from './expand-dependencies.js'
     }
   }
   const init = () => {
-    const button = gbid('search')
-    const samples = gbid('sample-dtmis')
-    samples.onclick = (that) => {
-      gbid('q').value = that.target.id
-    }
-    button.onclick = async () => {
-      model.resolveStatus = ''
+    gbid('sample-dtmis').onclick = (that) => { gbid('q').value = that.target.id }
+    gbid('search').onclick = async () => {
       const dtmi = gbid('q').value
       const repos = gbid('repos').value.replace(/(\r\n|\n|\r)/gm, '').split(';')
 
@@ -86,12 +81,11 @@ import { expand } from './expand-dependencies.js'
         // console.log(model)
       } else {
         model.Components = []
-        const resolveStatus = 'DTMI not found: ' + dtmi
-        bindTemplate('status-message', resolveStatus, 'status')
+        bindTemplate('status-message', 'DTMI not found: ' + dtmi, 'status')
         bindTemplate('model-template', model, 'rendered')
         return
       }
-      bindTemplate('status-message', 'DTMI found', 'status')
+      bindTemplate('status-message', 'DTMI found: ' + dtmi, 'status')
       bindTemplate('model-template', model, 'rendered')
     }
   }
