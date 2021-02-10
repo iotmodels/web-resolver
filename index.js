@@ -33,7 +33,7 @@ import { expand } from './expand-dependencies.js'
     compItem.schema = cschema
     compItem.schemaUrl = ids[cschema]
 
-    if (Array.isArray(comp.contents)) {
+    if (comp && comp.contents && Array.isArray(comp.contents)) {
       comp.contents.forEach(c => {
         if (Array.isArray(c['@type'])) {
           if (c['@type'].filter(t => t === 'Telemetry').length > 0) compItem.telemetry.push(c)
