@@ -24,5 +24,8 @@
     "ignore": [
       "*.d.ts"
     ]
+  },
+  "devDependencies": {
+    "standard": "^16.0.3"
   }
 }
