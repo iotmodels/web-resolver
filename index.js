@@ -6,9 +6,10 @@ import { dtdlViewModel} from './dtdlViewModel.js'
   gbid('sample-dtmis').onclick = that => { gbid('q').value = that.target.id }
   gbid('search').onclick = async () => {
     const dtmi = gbid('q').value
+    const tryExpanded = gbid('tryExpanded').checked ? '.expanded.json' : '.json'
     let vm = {}
     try {
-      const docs = await resolve(dtmi)
+      const docs = await resolve(dtmi, tryExpanded)
       vm = new dtdlViewModel(docs)
       bindTemplate('status-message', 'DTMI found: ' + dtmi, 'status')
       bindTemplate('model-template', vm.model, 'rendered')
