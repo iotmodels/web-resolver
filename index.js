@@ -1,5 +1,5 @@
 import { gbid, bindTemplate } from './view.js'
-import { dtmiToPath, resolve } from './resolve.js'
+import { resolve } from './resolve.js'
 import { dtdlViewModel} from './dtdlViewModel.js' 
 
 (async () => {
@@ -7,15 +7,14 @@ import { dtdlViewModel} from './dtdlViewModel.js'
   gbid('search').onclick = async () => {
     const dtmi = gbid('q').value
     const tryExpanded = gbid('tryExpanded').checked ? '.expanded.json' : '.json'
-    let vm = {}
+    let vm = {} 
     try {
       const docs = await resolve(dtmi, tryExpanded)
       vm = new dtdlViewModel(docs)
       bindTemplate('status-message', 'DTMI found: ' + dtmi, 'status')
       bindTemplate('model-template', vm.model, 'rendered')
     } catch (e) {   
-      vm.model = {}
-      bindTemplate('status-message', 'DTMI not found: ' + dtmiToPath(dtmi), 'status')
+      bindTemplate('status-message', 'DTMI not found: ' + dtmi, 'status')
       bindTemplate('model-template', {}, 'rendered')
       throw e
     }

@@ -1,11 +1,17 @@
-import {dtmiToPath,resolve} from './resolve.js'
+import {dtmiToPath} from './resolve.js'
 export class dtdlViewModel {
     model = {}
     docs = []
     rootDoc = {}
     constructor (expanded) {
-        this.docs = expanded
-        this.rootDoc = expanded[0]
+        if (Array.isArray(expanded)) {
+            this.docs = expanded
+            this.rootDoc = expanded[0]
+        } else {
+            this.rootDoc = expanded
+            this.docs = []
+            this.docs.push(this.rootDoc)
+        }
         this.model.id = this.rootDoc['@id']
         this.model.displayName = this.rootDoc.displayName
         this.model.Components = []
