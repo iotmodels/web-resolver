@@ -31,7 +31,7 @@ export class dtdlViewModel {
         const compItem = this.model.Components[compPos - 1]
         compItem.name = name
         compItem.schema = cschema
-        compItem.schemaUrl = 'https://devicemodels.azure.com' + dtmiToPath(cschema).replace('.json', '.expanded.json')
+        compItem.schemaUrl = 'https://devicemodels.azure.com' + dtmiToPath(cschema)
 
         if (comp && comp.contents && Array.isArray(comp.contents)) {
         comp.contents.forEach(c => {

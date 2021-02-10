@@ -1,5 +1,5 @@
 import { gbid, bindTemplate } from './view.js'
-import { resolve } from './resolve.js'
+import { resolve, dtmiToPath, repoBaseUrl } from './resolve.js'
 import { dtdlViewModel} from './dtdlViewModel.js' 
 
 (async () => {
@@ -11,10 +11,10 @@ import { dtdlViewModel} from './dtdlViewModel.js'
     try {
       const docs = await resolve(dtmi, tryExpanded)
       vm = new dtdlViewModel(docs)
-      bindTemplate('status-message', 'DTMI found: ' + dtmi, 'status')
+      bindTemplate('status-message', `OK from https://${repoBaseUrl}${dtmiToPath(dtmi).replace('.json', tryExpanded)}`, 'status')
       bindTemplate('model-template', vm.model, 'rendered')
     } catch (e) {   
-      bindTemplate('status-message', 'DTMI not found: ' + dtmi, 'status')
+      bindTemplate('status-message',`NOT FOUND from https://${repoBaseUrl}${dtmiToPath(dtmi).replace('.json', tryExpanded)}`, 'status')
       bindTemplate('model-template', {}, 'rendered')
       throw e
     }
