@@ -38,6 +38,7 @@
     <div id="main">
         <input type="text" id="q" size="50" value="dtmi:Advantech:EPC_U2117;2">
         <button id="search">Resolve</button>
+        
     </div>
     <div class="samples">
         <div id="sample-dtmis">
@@ -51,17 +52,12 @@
         </div>
     </div>
     <hr />
-    <div class="repos">
-        <h3>Registries</h3>
-        <textarea id="repos" cols="80" rows="4">https://devicemodels.azure.com;
-https://devicemodeltest.azureedge.net;</textarea>
-    </div>
     <div id="status"></div>
     <div id="rendered"></div>
     <script id="model-template" type="x-tmpl-mustache">
         {{#Components}}
         <div>
-            {{name}}  <a href="{{schemaUrl}}">{{schema}}<a>
+            {{name}}  <a href="{{schemaUrl}}" target="_blank">{{schema}}<a>
         </div>
         <ul>
             {{#telemetry}}
@@ -85,7 +81,7 @@ https://devicemodeltest.azureedge.net;</textarea>
     <script src="index.js" type="module"></script>
     <hr />
     <div>
-      Based on protoptypes from <a href="https://github.com/iotmodels">iotmodels</a>
+      Based on protoptypes from <a href="https://github.com/iotmodels/web-resolver">iotmodels</a>
     </div>
 </body>
 
