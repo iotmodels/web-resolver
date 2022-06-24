@@ -1,5 +1,3 @@
-export const repoBaseUrl = 'devicemodels.azure.com'
-
 export const isDtmi = dtmi => /^dtmi:[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?)*;[1-9][0-9]{0,8}$/.test(dtmi)
 
 export const dtmiToPath = function (dtmi) {
@@ -27,7 +25,7 @@ export const getDependencies = rootJson => {
   return deps
 }
 
-export const resolve = async (dtmi, x) => {
+export const resolve = async (dtmi, x, repoBaseUrl = 'devicemodesl.azure.com') => {
   let docs = []
   if (x) {
     docs = await (await window.fetch(`https://${repoBaseUrl}${dtmiToPath(dtmi).replace('.json', '.expanded.json')}`)).json()

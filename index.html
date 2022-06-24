@@ -18,6 +18,7 @@
             <input type="text" id="q" size="50" v-model="dtmi">
             <button id="search" @click="search()">Resolve</button>
             <input type="checkbox" checked="true" id="tryExpanded" v-model="tryExpanded"> TryExpanded
+            <input type="text" v-model="repoBaseUrl">
         </div>
         <div class="samples">
             <div id="sample-dtmis" @click="changeSelection">
@@ -53,9 +54,10 @@
     <hr />
     <script type="module">
         import index from './index.js'
-        import Property from './Property.vue.js'
-        import Telemetry from './Telemetry.vue.js'
-        import Command from './Command.vue.js'
+        import Property from './comps/Property.vue.js'
+        import Telemetry from './comps/Telemetry.vue.js'
+        import Command from './comps/Command.vue.js'
+
         const { createApp } = Vue
         const app = createApp(index)
         app.component("Property", Property)
