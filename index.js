@@ -1,5 +1,5 @@
 import { DtdlParser } from './DtdlParser.js'
-import { resolve } from './resolve.js'
+import { resolve, dtmiToPath, repoBaseUrl } from './resolve.js'
 
 export default {
   data: () => ({
@@ -25,6 +25,9 @@ export default {
     changeSelection (event) {
       this.dtmi = event.target.id
       this.Components = {}
+    },
+    getDtmiUrl (d) {
+      return `https://${repoBaseUrl}${dtmiToPath(d)}`
     }
   }
 }

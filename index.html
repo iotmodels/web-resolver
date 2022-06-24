@@ -34,7 +34,7 @@
         <div class="rendered" v-if="loaded">
             <ul>
                 <li v-for="comp in Components" >
-                <h4>{{comp.name}} ({{comp.schema}})</h4>
+                <h4>{{comp.name}} <a :href="getDtmiUrl(comp.schema)" target="_blank">{{comp.schema}}</a></h4>
                 <ul>
                     <li v-for="p in comp.properties">
                         [P] {{p.displayName.en || p.displayName}} '{{p.name}}'  <span>{{ p.writable === true ? '(*)' : ''}}</span>
