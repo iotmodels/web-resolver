@@ -18,9 +18,6 @@
   },
   "homepage": "https://github.com/iotmodels/web-resolver#readme",
   "standard": {
-    "globals": [
-      "Mustache"
-    ],
     "ignore": [
       "*.d.ts"
     ]

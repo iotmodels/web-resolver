@@ -14,9 +14,9 @@ export default {
       try {
         this.errInfo = null
         const docs = await resolve(this.dtmi, this.tryExpanded)
-        const vm = new DtdlParser(docs)
-        this.Components = vm.model.Components
-        console.log(vm.model.Components)
+        const parser = new DtdlParser(docs)
+        this.Components = parser.model.Components
+        console.log(parser.model.Components)
       } catch (e) {
         this.errInfo = e
       }

@@ -34,17 +34,16 @@
         <div class="rendered" v-if="loaded">
             <ul>
                 <li v-for="comp in Components" >
-                {{comp.name}}
+                <h4>{{comp.name}} ({{comp.schema}})</h4>
                 <ul>
                     <li v-for="p in comp.properties">
-                        <span>{{ p.writable === true ? '[WP]' : '[RO]'}}</span>
-                        {{p.displayName.en || p.displayName}} {{p.name}}  
+                        [P] {{p.displayName.en || p.displayName}} '{{p.name}}'  <span>{{ p.writable === true ? '(*)' : ''}}</span>
                     </li>
                     <li  v-for="t in comp.telemetry">
-                        [T] {{t.displayName.en || t.displayName}} {{t.name}} 
+                        [T] {{t.displayName.en || t.displayName}} '{{t.name}}'
                     </li>
                     <li  v-for="c in comp.commands">
-                        [C] {{c.name}}
+                        [C] '{{c.name}}'
                     </li>
                 </ul>
             </li>
