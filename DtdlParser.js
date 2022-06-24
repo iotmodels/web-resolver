@@ -1,4 +1,3 @@
-import { dtmiToPath } from './resolve.js'
 export class DtdlParser {
   constructor (expanded) {
     this.model = {}
@@ -9,7 +8,6 @@ export class DtdlParser {
       this.rootDoc = expanded[0]
     } else {
       this.rootDoc = expanded
-      this.docs = []
       this.docs.push(this.rootDoc)
     }
     this.model.id = this.rootDoc['@id']
@@ -28,17 +26,17 @@ export class DtdlParser {
 
   addComp2Model (name, cschema) {
     const comp = this.docs.filter(doc => doc['@id'] === cschema)[0]
-    const compPos = this.model.Components.push({ properties: [], telemetry: [], commands: [] })
+    const compPos = this.model.Components.push({ properties: [], telemetry: [], commands: [], schemas: [] })
     const compItem = this.model.Components[compPos - 1]
     compItem.name = name
     compItem.schema = cschema
-    compItem.schemaUrl = 'https://devicemodels.azure.com' + dtmiToPath(cschema)
 
     if (comp && comp.contents && Array.isArray(comp.contents)) {
       comp.contents.forEach(c => {
         if (Array.isArray(c['@type'])) {
           if (c['@type'].filter(t => t === 'Telemetry').length > 0) compItem.telemetry.push(c)
           if (c['@type'].filter(t => t === 'Property').length > 0) compItem.properties.push(c)
+          if (c['@type'].filter(t => t === 'Command').length > 0) compItem.properties.push(c)
         } else {
           switch (c['@type']) {
             case 'Telemetry':
@@ -53,6 +51,9 @@ export class DtdlParser {
           }
         }
       })
+    }
+    if (comp && comp.schemas && Array.isArray(comp.schemas)) {
+      comp.schemas.forEach(s => compItem.schemas.push(s))
     }
   }
 }
