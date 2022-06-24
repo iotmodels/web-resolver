@@ -1,21 +1,32 @@
-import { gbid, bindTemplate } from './view.js'
-import { resolve, dtmiToPath, repoBaseUrl } from './resolve.js'
 import { dtdlViewModel} from './dtdlViewModel.js' 
+import { resolve } from './resolve.js'
 
-(async () => {
-  gbid('sample-dtmis').onclick = that => { gbid('q').value = that.target.id }
-  gbid('search').onclick = async () => {
-    try {
-      const dtmi = gbid('q').value
-      const tryExpanded = gbid('tryExpanded').checked
-      const docs = await resolve(dtmi, tryExpanded)
-      const vm = new dtdlViewModel(docs)
-      bindTemplate('status-message', 'OK', 'status')
-      bindTemplate('model-template', vm.model, 'rendered')
-    } catch {   
-      bindTemplate('status-message','NOT FOUND', 'status')
-      bindTemplate('model-template', {}, 'rendered')
-      throw e
+export default {
+  data: () =>({
+    tryExpanded: true,
+    dtmi :'dtmi:com:example:TemperatureController;1',
+    loaded :false,
+    Components : {},
+    errInfo : ''
+  }),
+  methods: {
+    async search() {
+      try
+      {
+        this.errInfo = null
+        const docs = await resolve(this.dtmi, this.tryExpanded)
+        const vm = new dtdlViewModel(docs)
+        this.Components = vm.model.Components
+        console.log(vm.model.Components)
+      } catch (e) {
+        this.errInfo = e
+      }
+      this.loaded = true
+    },
+    changeSelection(event) {
+      this.dtmi = event.target.id
+      this.Components = {}
     }
   }
-})()
+}
+

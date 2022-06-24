@@ -1,0 +1,29 @@
+body{
+    font-family:monospace
+}
+.samples {
+    font-size: smaller;
+    color:gray;
+    word-wrap: break-word
+}
+
+
+
+.samples>div>small:hover {
+    color:black;
+    cursor:pointer;
+}
+.status {
+    margin: 5px;
+    bottom: 10px;
+    padding: 10px;
+}
+#rendered {
+    width: fit-content;
+    padding: 10px;
+    border: gray solid 2px;
+}
+
+.error {
+    color: red
+}

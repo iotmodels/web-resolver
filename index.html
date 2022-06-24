@@ -5,80 +5,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DMR Web Resolver</title>
-    <style>
-       body{
-           font-family:monospace
-       }
-       .samples {
-           font-size: smaller;
-           color:gray
-       }
-       .samples>div>small:hover {
-           color:black;
-           cursor:pointer;
-       }
-       .status {
-           margin: 5px;
-           bottom: 10px;
-           padding: 10px;
-       }
-       #rendered {
-           width: fit-content;
-           padding: 10px;
-           border: gray solid 2px;
-
-       }
-    </style>
+    <link href="s.css" rel="stylesheet" /> 
+    <script src="https://unpkg.com/vue@3"></script>
 </head>
 
 <body>
     <h4>DMR</h4>
     <h1>Web Resolver Sample</h1>
     <hr />
-    <div id="main">
-        <input type="text" id="q" size="50" value="dtmi:Advantech:EPC_U2117;2">
-        <button id="search">Resolve</button>
-        <input type="checkbox" checked="true" id="tryExpanded"> TryExpanded
-    </div>
-    <div class="samples">
-        <div id="sample-dtmis">
-            <small id="dtmi:azure:DeviceManagement:DeviceInformation;1">dtmi:azure:DeviceManagement:DeviceInformation;1</small>
-            <small id="dtmi:com:example:TemperatureController;1">dtmi:com:example:TemperatureController;1</small>
-            <small id="dtmi:MeshSystems:tXs:SensorSync;1">dtmi:MeshSystems:tXs:SensorSync;1</small>
-            <small id="dtmi:my:device:model;3">dtmi:my:device:model;3</small>
-            <small id="dtmi:jp:co:covia:ActyG3;2">dtmi:jp:co:covia:ActyG3;2</small>
-            <small id="dtmi:Espressif:SensorController;2">dtmi:Espressif:SensorController;2</small>
-            <small id="dtmi:Advantech:EPC_U2117;2">dtmi:Advantech:EPC_U2117;2</small>
+    <div id="app">
+        <div>
+            <input type="text" id="q" size="50" v-model="dtmi">
+            <button id="search" @click="search()">Resolve</button>
+            <input type="checkbox" checked="true" id="tryExpanded" v-model="tryExpanded"> TryExpanded
+        </div>
+        <div class="samples">
+            <div id="sample-dtmis" @click="changeSelection">
+                <small id="dtmi:azure:DeviceManagement:DeviceInformation;1">dtmi:azure:DeviceManagement:DeviceInformation;1 </small>
+                <small id="dtmi:com:example:TemperatureController;1">dtmi:com:example:TemperatureController;1 </small>
+                <small id="dtmi:MeshSystems:tXs:SensorSync;1">dtmi:MeshSystems:tXs:SensorSync;1 </small>
+                <small id="dtmi:my:device:model;3">dtmi:my:device:model;3 </small>
+                <small id="dtmi:jp:co:covia:ActyG3;2">dtmi:jp:co:covia:ActyG3;2 </small>
+                <small id="dtmi:Espressif:SensorController;2">dtmi:Espressif:SensorController;2 </small>
+                <small id="dtmi:Advantech:EPC_U2117;2">dtmi:Advantech:EPC_U2117;2 </small>
+            </div>
+        </div>
+        <span class="error" v-if="errInfo">{{errInfo}}</span>
+        <div class="rendered" v-if="loaded">
+            <ul>
+                <li v-for="comp in Components" >
+                {{comp.name}}
+                <ul>
+                    <li v-for="p in comp.properties">
+                        <span>{{ p.writable === true ? '[WP]' : '[RO]'}}</span>
+                        {{p.displayName.en || p.displayName}} {{p.name}}  
+                    </li>
+                    <li  v-for="t in comp.telemetry">
+                        [T] {{t.displayName.en || t.displayName}} {{t.name}} 
+                    </li>
+                    <li  v-for="c in comp.commands">
+                        [C] {{c.name}}
+                    </li>
+                </ul>
+            </li>
+            </ul>
         </div>
     </div>
     <hr />
-    <div id="status"></div>
-    <div id="rendered"></div>
-    <script id="model-template" type="x-tmpl-mustache">
-        {{#Components}}
-        <div>
-            {{name}}  <a href="{{schemaUrl}}" target="_blank">{{schema}}<a>
-        </div>
-        <ul>
-            {{#telemetry}}
-            <li>t: {{name}} {{schema}}</li>
-            {{/telemetry}}
-            {{#properties}}
-            <li>p: {{name}} {{schema}} {{writable}}</li>
-            {{/properties}}
-            {{#commands}}
-            <li>c: {{name}}</li>
-            {{/commands}}
-        </ul>
-        {{/Components}}
+    <script type="module">
+        import index from './index.js'
+        const { createApp } = Vue
+        createApp(index).mount('#app')
     </script>
-    <script id="status-message" type="x-tmpl-mustache">
-        Status: {{.}}
-    </script>
-
-    <script src="https://unpkg.com/mustache@latest"></script>
-    
-    <script src="index.js" type="module"></script>
     <hr />
     <div>
       Based on protoptypes from <a href="https://github.com/iotmodels/web-resolver">iotmodels</a>
