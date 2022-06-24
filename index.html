@@ -37,13 +37,13 @@
                 <h4>{{comp.name}} <a :href="getDtmiUrl(comp.schema)" target="_blank">{{comp.schema}}</a></h4>
                 <ul>
                     <li v-for="p in comp.properties">
-                        [P] {{p.displayName.en || p.displayName}} '{{p.name}}'  <span>{{ p.writable === true ? '(*)' : ''}}</span>
+                        <Property :property="p"></Property>
                     </li>
                     <li  v-for="t in comp.telemetry">
-                        [T] {{t.displayName.en || t.displayName}} '{{t.name}}'
+                        <Telemetry :telemetry="t"></Telemetry>
                     </li>
                     <li  v-for="c in comp.commands">
-                        [C] '{{c.name}}'
+                        <Command :command="c"></Command>
                     </li>
                 </ul>
             </li>
@@ -53,8 +53,15 @@
     <hr />
     <script type="module">
         import index from './index.js'
+        import Property from './Property.vue.js'
+        import Telemetry from './Telemetry.vue.js'
+        import Command from './Command.vue.js'
         const { createApp } = Vue
-        createApp(index).mount('#app')
+        const app = createApp(index)
+        app.component("Property", Property)
+        app.component("Telemetry", Telemetry)
+        app.component("Command", Command)
+        app.mount('#app')
     </script>
     <hr />
     <div>
@@ -63,3 +70,4 @@
 </body>
 
 </html>
+
