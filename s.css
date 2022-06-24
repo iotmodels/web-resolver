@@ -6,9 +6,6 @@ body{
     color:gray;
     word-wrap: break-word
 }
-
-
-
 .samples>div>small:hover {
     color:black;
     cursor:pointer;
@@ -18,11 +15,15 @@ body{
     bottom: 10px;
     padding: 10px;
 }
-#rendered {
+.schemas {
+    margin-left: 40px;
+}
+.rendered {
     width: fit-content;
     padding: 10px;
     border: gray solid 2px;
 }
+
 
 
 .error {

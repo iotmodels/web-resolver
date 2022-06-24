@@ -1,0 +1,139 @@
+{
+    "@context" : "dtmi:dtdl:context;2",
+    "@id": "dtmi:test:schemas;1",
+    "@type": "Interface",
+    "schemas": [
+        {
+            "@id": "dtmi:test:schemas:schemaOne;1",
+            "@type": "Object",
+            "fields": [
+                {
+                    "name": "rf1",
+                    "schema": "integer"
+                }
+            ]
+        },
+        {
+            "@id": "dtmi:test:schemas:schemaTwo;1",
+            "@type": "Enum",
+            "valueSchema": "integer",
+            "enumValues": [
+                {
+                    "name": "enumOne",
+                    "enumValue": 1
+                }
+            ]
+        },
+        {
+            "@id": "dtmi:test:schemas:schemaThree;1",
+            "@type": "Array",
+            "elementSchema": "integer"
+        },
+        {
+            "@id": "dtmi:test:schemas:schemaFour;1",
+            "@type": "Map",
+            "mapKey": {
+                "name": "k1",
+                "schema": "string"
+            },
+            "mapValue": {
+                "name": "v1",
+                "schema": "date"
+            }
+        }
+    ],  
+    "contents": [
+        {
+            "@type": "Property",
+            "name": "propOne",
+            "schema": "double"
+        },
+        {
+            "@type": "Property",
+            "name": "propWithSchema",
+            "schema": "dtmi:test:schemas:schemaTwo;1"
+        },
+        {
+            "@type": "Telemetry",
+            "name": "telSchema",
+            "schema": "dtmi:test:schemas:schemaOne;1"
+        },
+        {
+            "@type": "Telemetry",
+            "name": "telString",
+            "schema": "string"
+        },
+        {
+            "@type": "Telemetry",
+            "name": "telArrayFromSchema",
+            "schema":"dtmi:test:schemas:schemaThree;1"
+        },
+        {
+            "@type": "Telemetry",
+            "name": "telArrayFromMap",
+            "schema":"dtmi:test:schemas:schemaFour;1"
+        },
+        {
+            "@type": "Telemetry",
+            "name": "telObject",
+            "schema": {
+                "@type": "Object",
+                "fields": [
+                    {
+                        "name": "f1",
+                        "schema": "string"
+                    }
+                ]
+            }
+        },
+        {
+            "@type": "Command",
+            "name": "noReqNoResp"
+        },
+        {
+            "@type": "Command",
+            "name": "noResp",
+            "request": {
+                "name": "noResp_req",
+                "schema": "date"
+            }
+        },
+        {
+            "@type": "Command",
+            "name": "noReq",
+            "response": {
+                "name": "noReq_resp",
+                "schema": "date"
+            }
+        },
+        {
+            "@type": "Command",
+            "name": "cmdRefSchema",
+            "request": {
+                "name": "reqSchema",
+                "schema": "dtmi:test:schemas:schemaOne;1"
+            }
+        },
+        {
+            "@type": "Command",
+            "name": "cmdWithInlineResp",
+            "request": {
+                "name": "reqDouble",
+                "schema": "double"
+            },
+            "response": {
+                "name": "respInline",
+                "schema": {
+                    "@type": "Object",
+                    "fields": [
+                        {
+                            "name": "f1Resp",
+                            "schema": "float"
+                        }
+                    ]
+                }
+            }
+        }
+
+    ]
+}

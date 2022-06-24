@@ -4,9 +4,11 @@ export default {
   components: {
     Schema
   },
-  props: ['telemetry'],
+  props: ['telemetry', 'schemas'],
   template: `
-    [T] {{telemetry.displayName ? telemetry.displayName.en || telemetry.displayName.en : '' }} '{{telemetry.name}}'
-    <Schema :schema="telemetry.schema"></Schema>
+    <div>
+      [T] {{telemetry.displayName ? telemetry.displayName.en || telemetry.displayName.en : '' }} '{{telemetry.name}}'
+      <Schema :schema="telemetry.schema" :schemas="schemas"></Schema>
+    </div>
   `
 }

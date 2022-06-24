@@ -28,13 +28,13 @@ export const getDependencies = rootJson => {
 export const resolve = async (dtmi, x, repoBaseUrl = 'devicemodesl.azure.com') => {
   let docs = []
   if (x) {
-    docs = await (await window.fetch(`https://${repoBaseUrl}${dtmiToPath(dtmi).replace('.json', '.expanded.json')}`)).json()
+    docs = await (await window.fetch(`${repoBaseUrl}${dtmiToPath(dtmi).replace('.json', '.expanded.json')}`)).json()
   } else {
-    const rootDoc = await (await window.fetch(`https://${repoBaseUrl}${dtmiToPath(dtmi)}`)).json()
+    const rootDoc = await (await window.fetch(`${repoBaseUrl}${dtmiToPath(dtmi)}`)).json()
     docs.push(rootDoc)
     const deps = getDependencies(rootDoc)
     for await (const d of deps) {
-      const aDoc = await (await window.fetch(`https://${repoBaseUrl}${dtmiToPath(d)}`)).json()
+      const aDoc = await (await window.fetch(`${repoBaseUrl}${dtmiToPath(d)}`)).json()
       docs.push(aDoc)
     }
   }

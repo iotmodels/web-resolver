@@ -1,24 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DMR Web Resolver</title>
-    <link href="s.css" rel="stylesheet" /> 
+    <link href="s.css" rel="stylesheet" />
     <script src="https://unpkg.com/vue@3"></script>
 </head>
-
 <body>
-    <h4>DMR</h4>
-    <h1>Web Resolver Sample</h1>
-    <hr />
+    <h1>DMR Web Resolver Sample</h1>
     <div id="app">
         <div>
-            <input type="text" id="q" size="50" v-model="dtmi">
-            <button id="search" @click="search()">Resolve</button>
-            <input type="checkbox" checked="true" id="tryExpanded" v-model="tryExpanded"> TryExpanded
-            <input type="text" v-model="repoBaseUrl">
+            <input type="text" size="50" v-model="dtmi">
+            <button @click="search()">Resolve</button>
+            <input type="checkbox" checked="true"  v-model="tryExpanded"> TryExpanded
+            <input type="text" size="50" v-model="repoBaseUrl">
         </div>
         <div class="samples">
             <div id="sample-dtmis" @click="changeSelection">
@@ -31,27 +27,27 @@
                 <small id="dtmi:Advantech:EPC_U2117;2">dtmi:Advantech:EPC_U2117;2 </small>
             </div>
         </div>
-        <span class="error" v-if="errInfo">{{errInfo}}</span>
+        <span class="error" v-if="errInfo">{{ errInfo }}</span>
         <div class="rendered" v-if="loaded">
             <ul>
-                <li v-for="comp in Components" >
-                <h4>{{comp.name}} <a :href="getDtmiUrl(comp.schema)" target="_blank">{{comp.schema}}</a></h4>
-                <ul>
-                    <li v-for="p in comp.properties">
-                        <Property :property="p"></Property>
-                    </li>
-                    <li  v-for="t in comp.telemetry">
-                        <Telemetry :telemetry="t"></Telemetry>
-                    </li>
-                    <li  v-for="c in comp.commands">
-                        <Command :command="c"></Command>
-                    </li>
-                </ul>
-            </li>
+                <li v-for="comp in Components">
+                    <h4>{{ comp.name }} <a :href="getDtmiUrl(comp.schema)" target="_blank">{{ comp.schema }}</a>
+                    </h4>
+                    <ul>
+                        <li v-for="t in comp.telemetry">
+                            <Telemetry :telemetry="t" :schemas="comp.schemas"></Telemetry>
+                        </li>
+                        <li v-for="p in comp.properties">
+                            <Property :property="p" :schemas="comp.schemas"></Property>
+                        </li>
+                        <li v-for="c in comp.commands">
+                            <Command :command="c" :schemas="comp.schemas"></Command>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
-    <hr />
     <script type="module">
         import index from './index.js'
         import Property from './comps/Property.vue.js'
@@ -65,11 +61,9 @@
         app.component("Command", Command)
         app.mount('#app')
     </script>
-    <hr />
     <div>
-      Based on protoptypes from <a href="https://github.com/iotmodels/web-resolver">iotmodels</a>
+        Based on protoptypes from <a href="https://github.com/iotmodels/web-resolver">iotmodels</a>
     </div>
 </body>
 
 </html>
-

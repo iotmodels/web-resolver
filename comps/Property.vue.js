@@ -4,9 +4,9 @@ export default {
   components: {
     Schema
   },
-  props: ['property'],
+  props: ['property', 'schemas'],
   template: `
-  [P] {{property.displayName.en || property.displayName}} '{{property.name}}'  <span>{{ property.writable === true ? '(*) ' : ''}}</span>
-  <Schema :schema="property.schema"></Schema>
+  [P] {{property.displayName ? property.displayName.en || property.displayName : ''}} '{{property.name}}'  <span>{{ property.writable === true ? '(*) ' : ''}}</span>
+  <Schema :schema="property.schema" :schemas="schemas"></Schema>
   `
 }
