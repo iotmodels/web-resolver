@@ -1,9 +1,9 @@
 import { dtmiToPath } from './resolve.js'
-export class dtdlViewModel {
-  model = {}
-  docs = []
-  rootDoc = {}
-  constructor(expanded) {
+export class DtdlParser {
+  constructor (expanded) {
+    this.model = {}
+    this.docs = []
+    this.rootDoc = {}
     if (Array.isArray(expanded)) {
       this.docs = expanded
       this.rootDoc = expanded[0]
@@ -25,7 +25,8 @@ export class dtdlViewModel {
       })
     }
   }
-  addComp2Model = (name, cschema) => {
+
+  addComp2Model (name, cschema) {
     const comp = this.docs.filter(doc => doc['@id'] === cschema)[0]
     const compPos = this.model.Components.push({ properties: [], telemetry: [], commands: [] })
     const compItem = this.model.Components[compPos - 1]
