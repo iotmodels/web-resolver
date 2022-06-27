@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DMR Web Resolver</title>
     <link href="s.css" rel="stylesheet" />
-    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://unpkg.com/vue@latest/dist/vue.global.prod.js"></script>
 </head>
 <body>
     <h1>DMR Web Resolver Sample</h1>
@@ -18,13 +18,12 @@
         </div>
         <div class="samples">
             <div id="sample-dtmis" @click="changeSelection">
-                <small id="dtmi:azure:DeviceManagement:DeviceInformation;1">dtmi:azure:DeviceManagement:DeviceInformation;1 </small>
                 <small id="dtmi:com:example:TemperatureController;1">dtmi:com:example:TemperatureController;1 </small>
                 <small id="dtmi:MeshSystems:tXs:SensorSync;1">dtmi:MeshSystems:tXs:SensorSync;1 </small>
-                <small id="dtmi:my:device:model;3">dtmi:my:device:model;3 </small>
                 <small id="dtmi:jp:co:covia:ActyG3;2">dtmi:jp:co:covia:ActyG3;2 </small>
                 <small id="dtmi:Espressif:SensorController;2">dtmi:Espressif:SensorController;2 </small>
                 <small id="dtmi:Advantech:EPC_U2117;2">dtmi:Advantech:EPC_U2117;2 </small>
+                <small id="dtmi:impinj:FixedReader;14">dtmi:impinj:FixedReader;14 </small>
             </div>
         </div>
         <span class="error" v-if="errInfo">{{ errInfo }}</span>

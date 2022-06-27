@@ -3,6 +3,9 @@ import { resolve, dtmiToPath } from './resolve.js'
 
 export default {
   data: () => ({
+    // tryExpanded: false,
+    // dtmi: 'dtmi:test:schemas;1',
+    // repoBaseUrl: './test',
     tryExpanded: true,
     dtmi: 'dtmi:com:example:TemperatureController;1', // 'dtmi:test:schemas;1',
     repoBaseUrl: 'https://devicemodels.azure.com', // './test',

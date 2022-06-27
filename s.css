@@ -23,8 +23,14 @@ body{
     padding: 10px;
     border: gray solid 2px;
 }
+li.righter {
+    margin-left: 40px;
+}
 
-
+.anchor {
+    text-decoration: underline;
+    cursor: pointer;
+}
 
 .error {
     color: red

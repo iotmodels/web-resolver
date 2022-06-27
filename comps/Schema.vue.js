@@ -1,36 +1,68 @@
-const isObject = obj => Object.prototype.toString.call(obj) === '[object Object]'
 
 export default {
   data: () => ({
+    schemaType: 'string',
     schemaName: '',
-    resolvedSchema: {}
+    resolvedSchema: {},
+    showSchema: false
   }),
+  name: 'Schema',
   props: ['schema', 'schemas'],
   created () {
+    const isObject = obj => Object.prototype.toString.call(obj) === '[object Object]'
     if (isObject(this.schema)) {
       // this.schemaName = 'inline schema'
+      this.schemaType = 'inline'
       this.resolvedSchema = this.schema
     } else {
       if (this.schema && this.schema.startsWith('dtmi:')) {
+        this.schemaType = 'inline'
         this.resolvedSchema = this.schemas.filter(s => s['@id'] === this.schema)[0]
       } else {
-        this.schemaName = this.schema
+        this.schemaType = 'string'
+        this.resolvedSchema = this.schema
       }
     }
   },
+  methods: {
+    toggle () {
+      this.showSchema = !this.showSchema
+    }
+  },
   template: `
-  <div class="schemas">
-    <div> {{schemaName}}</div>
-    <ul v-if="resolvedSchema['@type'] === 'Object'">
-        Object
-        <li v-for="f in resolvedSchema.fields">{{f.name}} {{f.resolvedSchema}}</li>
-    </ul>
-    <ul v-if="resolvedSchema['@type'] === 'Enum'">
-        Enum
-        <li v-for="e in resolvedSchema.enumValues">{{e.name}} {{e.enumValue}}</li>
-    </ul>
-    <div v-if="resolvedSchema['@type'] === 'Array'"> Array of {{resolvedSchema.elementSchema}}</div>
-    <div v-if="resolvedSchema['@type'] === 'Map'"> Map [{{resolvedSchema.mapKey.schema}},{{resolvedSchema.mapValue.schema}}] </div>
-   </div>
+<span v-if="schemaType === 'string'">{{resolvedSchema}}</span>
+<span class="anchor" @click="toggle" v-if="schemaType!=='string'" :title="'Show schema ' + schema ">+</span>
+<div class="schemas">
+  <div v-show="showSchema">
+      <ul v-if="schemaType === 'inline'">
+          <li v-for="f in resolvedSchema.fields">
+              {{f.name}}
+              <Schema :schema="f.schema" :schemas="schemas"></Schema>
+          </li>
+      </ul>
+  </div>
+  <ul v-if="resolvedSchema['@type'] === 'Enum'">
+      <div v-show="showSchema">
+          Enum
+          <Schema :schema="resolvedSchema.valueSchema" :schemas="schemas"></Schema>
+          <li class="righter" v-for="e in resolvedSchema.enumValues">
+              {{e.name}} {{e.enumValue}}
+          </li>
+      </div>
+  </ul>
+  <div v-if="resolvedSchema['@type'] === 'Array'">
+      <div v-show="showSchema">
+          Array
+          <Schema :schema="resolvedSchema.elementSchema" :schemas="schemas"></Schema>
+      </div>
+  </div>
+
+  <div v-if="resolvedSchema['@type'] === 'Map'">
+        <div v-show="showSchema">
+          Map Key: <Schema :schema="resolvedSchema.mapKey.schema" :schemas="schemas"></Schema>
+          Map Value: <Schema :schema="resolvedSchema.mapValue.schema" :schemas="schemas"></Schema>
+      </div>
+  </div>
+</div>
   `
 }

@@ -10,6 +10,10 @@
                 {
                     "name": "rf1",
                     "schema": "integer"
+                },
+                {
+                    "name" : "rf2",
+                    "schema" : "dtmi:test:schemas:schemaTwo;1"
                 }
             ]
         },
@@ -38,8 +42,13 @@
             },
             "mapValue": {
                 "name": "v1",
-                "schema": "date"
+                "schema": "dtmi:test:schemas:schemaTwo;1"
             }
+        },
+        {
+            "@id": "dtmi:test:schemas:schemaFive;1",
+            "@type": "Array",
+            "elementSchema": "dtmi:test:schemas:schemaFour;1"
         }
     ],  
     "contents": [
@@ -71,7 +80,7 @@
         {
             "@type": "Telemetry",
             "name": "telArrayFromMap",
-            "schema":"dtmi:test:schemas:schemaFour;1"
+            "schema":"dtmi:test:schemas:schemaFive;1"
         },
         {
             "@type": "Telemetry",
