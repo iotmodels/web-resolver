@@ -17,6 +17,11 @@ body{
 }
 .schemas {
     margin-left: 40px;
+    background-color: rgb(244,243,241);
+    padding:2px;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+
 }
 .rendered {
     width: fit-content;

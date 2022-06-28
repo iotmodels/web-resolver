@@ -32,8 +32,8 @@ export default {
   template: `
 <span v-if="schemaType === 'string'">{{resolvedSchema}}</span>
 <span class="anchor" @click="toggle" v-if="schemaType!=='string'" :title="'Show schema ' + schema ">+</span>
-<div class="schemas">
-  <div v-show="showSchema">
+<div>
+  <div v-show="showSchema" class="schemas">
       <ul v-if="schemaType === 'inline'">
           <li v-for="f in resolvedSchema.fields">
               {{f.name}}
@@ -42,7 +42,7 @@ export default {
       </ul>
   </div>
   <ul v-if="resolvedSchema['@type'] === 'Enum'">
-      <div v-show="showSchema">
+      <div v-show="showSchema" class="schemas">
           Enum
           <Schema :schema="resolvedSchema.valueSchema" :schemas="schemas"></Schema>
           <li class="righter" v-for="e in resolvedSchema.enumValues">
@@ -51,14 +51,14 @@ export default {
       </div>
   </ul>
   <div v-if="resolvedSchema['@type'] === 'Array'">
-      <div v-show="showSchema">
+      <div v-show="showSchema" class="schemas">
           Array
           <Schema :schema="resolvedSchema.elementSchema" :schemas="schemas"></Schema>
       </div>
   </div>
 
   <div v-if="resolvedSchema['@type'] === 'Map'">
-        <div v-show="showSchema">
+        <div v-show="showSchema" class="schemas">
           Map Key: <Schema :schema="resolvedSchema.mapKey.schema" :schemas="schemas"></Schema>
           Map Value: <Schema :schema="resolvedSchema.mapValue.schema" :schemas="schemas"></Schema>
       </div>

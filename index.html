@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DMR Web Resolver</title>
     <link href="s.css" rel="stylesheet" />
-    <script src="https://unpkg.com/vue@latest/dist/vue.global.prod.js"></script>
+    <!-- dist/vue.global.prod.js -->
+    <script src="https://unpkg.com/vue@latest"></script>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
@@ -29,36 +30,15 @@
         </div>
         <span class="error" v-if="errInfo">{{ errInfo }}</span>
         <div class="rendered" v-if="loaded">
-            <ul>
-                <li v-for="comp in Components">
-                    <h4>{{ comp.name }} <a :href="getDtmiUrl(comp.schema)" target="_blank">{{ comp.schema }}</a>
-                    </h4>
-                    <ul>
-                        <li v-for="t in comp.telemetry">
-                            <Telemetry :telemetry="t" :schemas="comp.schemas"></Telemetry>
-                        </li>
-                        <li v-for="p in comp.properties">
-                            <Property :property="p" :schemas="comp.schemas"></Property>
-                        </li>
-                        <li v-for="c in comp.commands">
-                            <Command :command="c" :schemas="comp.schemas"></Command>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+            <interface :interface="model[0]" :root="model" :base-repo="repoBaseUrl"></interface>
         </div>
     </div>
     <script type="module">
         import index from './index.js'
-        import Property from './comps/Property.vue.js'
-        import Telemetry from './comps/Telemetry.vue.js'
-        import Command from './comps/Command.vue.js'
-
+        import Interface from './comps/Interface.vue.js'
         const { createApp } = Vue
         const app = createApp(index)
-        app.component("Property", Property)
-        app.component("Telemetry", Telemetry)
-        app.component("Command", Command)
+        app.component("Interface", Interface)
         app.mount('#app')
     </script>
     <div>

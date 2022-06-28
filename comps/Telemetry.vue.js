@@ -7,7 +7,7 @@ export default {
   props: ['telemetry', 'schemas'],
   template: `
     <div>
-      [T] {{telemetry.displayName ? telemetry.displayName.en || telemetry.displayName.en : '' }} '{{telemetry.name}}'
+      [T] '{{telemetry.name}}' {{telemetry.displayName ? telemetry.displayName.en || telemetry.displayName.en : '' }}
       <Schema :schema="telemetry.schema" :schemas="schemas"></Schema>
     </div>
   `
