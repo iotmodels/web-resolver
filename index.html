@@ -12,11 +12,13 @@
 <body>
     <h1>DMR Web Resolver Sample</h1>
     <div id="app">
-        <div>
-            <input type="text" size="50" v-model="dtmi">
-            <button @click="search()">Resolve</button>
+        <div class="search">
+            DMR: <input type="text" size="50" v-model="repoBaseUrl">
             <input type="checkbox" checked="true"  v-model="tryExpanded"> TryExpanded
-            <input type="text" size="50" v-model="repoBaseUrl">
+        </div>
+        <div class="search">
+            DTMI: <input type="text" size="50" v-model="dtmi">
+            <button @click="search()">Resolve</button>
         </div>
         <div class="samples">
             <div id="sample-dtmis" @click="changeSelection">

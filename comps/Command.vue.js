@@ -13,7 +13,8 @@ export default {
   },
   props: ['command', 'schemas'],
   template: `
-    [C] '{{command.name}}'
+    [C] {{command.name}}
+    <span class="info">{{command.displayName ? command.displayName.en || command.displayName : ''}} </span>
     <span class="anchor" v-if="command.request || command.response" @click="toggle">+</span>
     <div v-show="showCmdDetails">
     <div v-if="command.request" class="schemas">

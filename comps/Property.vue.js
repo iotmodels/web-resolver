@@ -6,8 +6,10 @@ export default {
   },
   props: ['property', 'schemas'],
   template: `
-  [P] '{{property.name}}' <span>{{ property.writable === true ? '(*) ' : ''}}</span> 
-  {{property.displayName ? property.displayName.en || property.displayName : ''}}
+  [P] 
+  <span title="Writable Property">{{ property.writable === true ? '(*) ' : ''}}</span>
+  {{property.name}}
+  <span class="info">{{property.displayName ? property.displayName.en || property.displayName : ''}} </span>
   <Schema :schema="property.schema" :schemas="schemas"></Schema>
   `
 }

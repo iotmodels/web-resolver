@@ -1,10 +1,18 @@
 body{
     font-family:monospace
 }
+
+.search {
+    margin: 5px
+}
+
 .samples {
     font-size: smaller;
     color:gray;
     word-wrap: break-word
+}
+.info {
+    color:grey
 }
 .samples>div>small:hover {
     color:black;
@@ -21,7 +29,13 @@ body{
     padding:2px;
     border: 1px solid lightgray;
     border-radius: 3px;
+}
+.schemas>ul>li{
+    list-style-type:circle;
+}
 
+.schemaName {
+    font-style: italic;
 }
 .rendered {
     width: fit-content;
