@@ -1,4 +1,4 @@
-import {resolveDtmi} from './resolve.js'
+import { resolveDtmi } from './resolve.js'
 
 export default {
   data: () => ({

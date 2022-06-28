@@ -1,7 +1,7 @@
 import Property from './Property.vue.js'
 import Telemetry from './Telemetry.vue.js'
 import Command from './Command.vue.js'
-import {dtmiToPath} from '../resolve.js'
+import { dtmiToPath } from '../resolve.js'
 
 export default {
   name: 'Interface',
@@ -14,21 +14,21 @@ export default {
     resCompos: new Map()
   }),
   components: {
-    Property,Telemetry,Command
+    Property, Telemetry, Command
   },
   props: ['interface', 'root', 'baseRepo'],
-  created() {
+  created () {
     this.dtmi = this.interface['@id']
     this.dtmiPath = `${this.baseRepo}${dtmiToPath(this.dtmi)}`
-    this.telemetries = this.interface.contents.filter( c =>c['@type'].includes('Telemetry'))
-    this.properties = this.interface.contents.filter( c =>c['@type'].includes('Property'))
-    this.commands = this.interface.contents.filter( c =>c['@type'].includes('Command'))
-    const compos = this.interface.contents.filter( c =>c['@type'].includes('Component'))
+    this.telemetries = this.interface.contents.filter(c => c['@type'].includes('Telemetry'))
+    this.properties = this.interface.contents.filter(c => c['@type'].includes('Property'))
+    this.commands = this.interface.contents.filter(c => c['@type'].includes('Command'))
+    const compos = this.interface.contents.filter(c => c['@type'].includes('Component'))
     compos.forEach(c => {
-        const isObject = obj => Object.prototype.toString.call(obj) === '[object Object]'
-        if (!isObject(c.schema) && c.schema.startsWith('dtmi:')) {
-            this.resCompos.set(c.name,this.root.filter(r => r['@id'] === c.schema)[0])
-        }
+      const isObject = obj => Object.prototype.toString.call(obj) === '[object Object]'
+      if (!isObject(c.schema) && c.schema.startsWith('dtmi:')) {
+        this.resCompos.set(c.name, this.root.filter(r => r['@id'] === c.schema)[0])
+      }
     })
   },
   template: `
