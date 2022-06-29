@@ -31,7 +31,9 @@ export default {
   },
   template: `
 <span v-if="schemaType === 'string'" class="schemaName"> [{{resolvedSchema}}]</span>
-<span class="anchor" @click="toggle" v-if="schemaType!=='string'" :title="'Show schema ' + schema ">+</span>
+<span class="anchor" @click="toggle" v-if="schemaType!=='string'" :title="'Show schema ' + schema ">
+{{showSchema ? '-' : '+'}}
+</span>
 <div>
   <div v-show="showSchema" class="schemas">
       <ul v-if="schemaType === 'inline'">
