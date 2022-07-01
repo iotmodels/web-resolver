@@ -20,6 +20,7 @@ export default {
       try {
         this.loaded = false
         this.errInfo = null
+        this.model.splice(0, this.model.length)
         this.model = await resolveDtmi(this.dtmi, this.tryExpanded, this.repoBaseUrl)
       } catch (e) {
         this.errInfo = e
