@@ -32,8 +32,13 @@ export default {
     })
   },
   template: `
-    
-    <a :href="dtmiPath" target="_blank">{{dtmi}}</a>
+    <div class="component">
+    <h3>
+      {{interface.displayName? interface.displayName.en || interface.displayName : ''}}
+      <a :href="dtmiPath" target="_blank">{{dtmi}}</a>
+    </h3>
+    <span v-if="interface.description" class="description">{{interface.description.en || interface.description }}</span>
+
     <ul>
         <li v-for="t in telemetries">
             <Telemetry :telemetry="t" :schemas="interface.schemas"></Telemetry>
@@ -45,9 +50,9 @@ export default {
             <Command :command="c" :schemas="interface.schemas"></Command>
         </li>
         <li v-for="[key,value] in resCompos">
-            <strong>{{key}}</strong> <Interface :interface="value" :root="root" :baseRepo="baseRepo"></Interface>
+            <Interface :interface="value" :root="root" :baseRepo="baseRepo"></Interface>
         </li>
     </ul>
-    
+    <div>
   `
 }

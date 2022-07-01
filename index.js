@@ -12,6 +12,9 @@ export default {
     model: [],
     errInfo: ''
   }),
+  created () {
+    this.tryExpanded = this.repoBaseUrl === 'https://devicemodels.azure.com'
+  },
   methods: {
     async search () {
       try {
@@ -25,7 +28,13 @@ export default {
     },
     changeSelection (event) {
       this.dtmi = event.target.id
-      this.Components = {}
+      this.model = []
+    },
+    changRepo (event) {
+      console.log('changerepo')
+      this.repoBaseUrl = event.target.id
+      this.tryExpanded = this.repoBaseUrl === 'https://devicemodels.azure.com'
+      this.model = []
     }
   }
 }

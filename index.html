@@ -13,8 +13,15 @@
     <h1>DMR Web Resolver Sample</h1>
     <div id="app">
         <div class="search">
-            DMR: <input type="text" size="50" v-model="repoBaseUrl">
+            DMR: <input type="text" size="70" v-model="repoBaseUrl">
             <input type="checkbox" checked="true"  v-model="tryExpanded"> TryExpanded
+            <div class="samples">
+                <div id="sample-dtmis" @click="changRepo">
+                    <small id="https://devicemodels.azure.com">devicemodels.azure.com </small>
+                    <small id="https://raw.githubusercontent.com/iotmodels/iot-plugandplay-models/rido/pnp">iotmodels/iot-plugandplay-models>rido/pnp </small>
+                    <small id="https://raw.githubusercontent.com/tartabit/iot-plugandplay-models/tartabit-device">tartabit/iot-plugandplay-models->tartabit-device </small>
+                </div>    
+            </div>
         </div>
         <div class="search">
             DTMI: <input type="text" size="50" v-model="dtmi">
@@ -28,10 +35,11 @@
                 <small id="dtmi:Espressif:SensorController;2">dtmi:Espressif:SensorController;2 </small>
                 <small id="dtmi:Advantech:EPC_U2117;2">dtmi:Advantech:EPC_U2117;2 </small>
                 <small id="dtmi:impinj:FixedReader;14">dtmi:impinj:FixedReader;14 </small>
+                <small id="dtmi:rido:pnp:memmon;1">dtmi:rido:pnp:memmon;1 </small>
             </div>
         </div>
         <span class="error" v-if="errInfo">{{ errInfo }}</span>
-        <div class="rendered" v-if="loaded">
+        <div class="rendered" v-if="model.length>0">
             <interface :interface="model[0]" :root="model" :base-repo="repoBaseUrl"></interface>
         </div>
     </div>
